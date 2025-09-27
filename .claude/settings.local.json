@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p log-analyzer/{src/main/java/com/loganalyzer/{parser,filter,analyzer,model,pipeline},src/test/java/com/loganalyzer,docs})",
+      "Bash(mkdir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
