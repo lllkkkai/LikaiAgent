@@ -64,16 +64,36 @@
 ```mermaid
 classDiagram
     class LogParser {
+        <<interface>>
         +parse(rawLog: String): LogRecord
     }
     class LogFilter {
+        <<interface>>
         +filter(record: LogRecord): LogRecord
     }
     class AIAnalyzer {
+        <<interface>>
         +analyze(record: LogRecord): AnalysisResult
+    }
+    class CodeLocator {
+        <<interface>>
+        +locateRelatedCode(record: LogRecord): String
     }
     class LogProcessingPipeline {
         +process(rawLog: String): AnalysisResult
+    }
+
+    class RegexLogParser {
+        +parse(rawLog: String): LogRecord
+    }
+    class LogFilterImpl {
+        +filter(record: LogRecord): LogRecord
+    }
+    class KimiAnalyzerImpl {
+        +analyze(record: LogRecord): AnalysisResult
+    }
+    class LocalCodeLocator {
+        +locateRelatedCode(record: LogRecord): String
     }
 
     class LogRecord {
@@ -97,12 +117,19 @@ classDiagram
         +relatedLocation: String
     }
 
+    LogParser <|-- RegexLogParser
+    LogFilter <|-- LogFilterImpl
+    AIAnalyzer <|-- KimiAnalyzerImpl
+    CodeLocator <|-- LocalCodeLocator
+
     LogParser --> LogRecord
     LogFilter --> LogRecord
     AIAnalyzer --> AnalysisResult
+    CodeLocator --> LogRecord
     LogProcessingPipeline --> LogParser
     LogProcessingPipeline --> LogFilter
     LogProcessingPipeline --> AIAnalyzer
+    LogProcessingPipeline --> CodeLocator
 ```
 
 * **新增类**：`LogParser`、`LogFilter`、`AIAnalyzer`、`LogProcessingPipeline`
@@ -110,18 +137,27 @@ classDiagram
 
 ---
 
-目录结构
+## 📁 目录结构
 
-src/main/java/com/lllkkk/ai/helper/modules/aierror/
-├── application/           # 应用服务，组合调用
+```
+src/main/java/com/lllkkk/ai/agent/modules/log/handle/
+├── application/                    # 应用服务，组合调用
 │   └── LogProcessingPipeline.java
-├── domain/                # 领域层
+├── domain/                         # 领域层
 │   ├── model/
-│   │   ├── LogRecord.java
-│   │   ├── StackFrame.java
-│   │   └── AnalysisResult.java
+│   │   ├── LogRecord.java         # 日志记录模型
+│   │   ├── StackFrame.java        # 堆栈帧模型
+│   │   └── AnalysisResult.java    # AI分析结果模型
 │   └── service/
-│       ├── LogParser.java
-│       ├── LogFilter.java
-│       └── AIAnalyzer.java
-└── infrastructure/        # 基础设施，比如AI接口调用、配置
+│       ├── LogParser.java         # 日志解析接口
+│       ├── LogFilter.java         # 日志过滤接口
+│       ├── AIAnalyzer.java        # AI分析接口
+│       ├── CodeLocator.java       # 代码定位接口
+│       └── impl/                  # 接口实现
+│           ├── RegexLogParser.java     # 正则表达式日志解析器
+│           ├── LogFilterImpl.java      # 日志过滤器实现
+│           ├── KimiAnalyzerImpl.java   # Kimi AI分析器实现
+│           └── LocalCodeLocator.java   # 本地代码定位器
+└── infrastructure/                 # 基础设施层
+    # AI接口调用、配置等相关代码
+```
