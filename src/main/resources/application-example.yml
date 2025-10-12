@@ -1,0 +1,21 @@
+# AI配置示例文件
+# 这是配置文件的使用示例，展示各个配置项的作用
+ai:
+  kimi:
+    api-key: "sk-xxxxxxxxxxxxxxxx"  # Kimi API密钥，从 https://platform.moonshot.cn/ 获取
+    base-url: "https://api.moonshot.cn/v1"  # Kimi API基础地址
+    model: "moonshot-v1-8k"  # 使用的AI模型
+    max-tokens: 2000  # 最大令牌数，控制响应长度
+    temperature: 0.3  # 温度参数，0-1之间，值越小响应越稳定
+
+# Spring配置
+spring:
+  application:
+    name: ai-log-analyzer  # 应用名称
+
+# 日志配置
+logging:
+  level:
+    com.lllkkk.ai.agent: DEBUG  # 本项目的日志级别
+    org.springframework.web: INFO  # Spring Web日志级别
+    org.springframework.ai: DEBUG  # AI相关日志

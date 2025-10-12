@@ -32,3 +32,32 @@ build/
 .vscode/
 
 .claude/
+
+### Sensitive Configuration Files ###
+# Exclude application configuration files containing sensitive data
+src/main/resources/application.yml
+src/main/resources/application-*.yml
+src/main/resources/application-*.properties
+
+# Allow template and example files
+!src/main/resources/application-template.yml
+!src/main/resources/application-example.yml
+!src/main/resources/application-template.properties
+!src/main/resources/application-example.properties
+
+### Environment Files ###
+.env
+.env.local
+.env.*.local
+
+### Log Files ###
+logs/
+*.log
+*.log.*
+
+### Temporary Files ###
+*.tmp
+*.temp
+*.swp
+*.swo
+*~

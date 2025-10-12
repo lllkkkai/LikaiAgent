@@ -1,0 +1,26 @@
+# AI配置模板文件
+# 复制此文件为 application.yml 并填入实际配置值
+ai:
+  kimi:
+    api-key: "your-kimi-api-key-here"  # 请替换为你的Kimi API密钥
+    base-url: "https://api.moonshot.cn/v1"
+    model: "moonshot-v1-8k"
+    max-tokens: 2000
+    temperature: 0.3
+
+# 源码定位器配置
+code:
+  locator:
+    source-root: "src/main/java"  # 源码根目录（相对于项目根目录）
+    enable-source-lookup: true    # 是否启用源码查找功能
+
+# Spring配置
+spring:
+  application:
+    name: ai-log-analyzer
+
+# 日志配置
+logging:
+  level:
+    com.lllkkk.ai.agent: DEBUG
+    org.springframework.web: INFO
