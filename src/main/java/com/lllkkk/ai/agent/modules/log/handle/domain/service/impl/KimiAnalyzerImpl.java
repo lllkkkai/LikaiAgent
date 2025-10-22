@@ -68,7 +68,7 @@ public class KimiAnalyzerImpl implements AIAnalyzer {
 
                 // 获取源码上下文
                 try {
-                    List<String> codeSnippet = codeLocator.fetchSnippet(frame, 3);
+                    List<String> codeSnippet = codeLocator.fetchSnippet(frame, 5);
                     if (!codeSnippet.isEmpty()) {
                         prompt.append("   相关代码片段:\n");
                         int startLine = Math.max(1, frame.getLineNumber() - 2);

@@ -49,7 +49,7 @@ public class LocalCodeLocator implements CodeLocator {
 
         try {
             // 尝试多种方式获取源码
-            List<String> sourceCode = getSourceCode(frame.getClassName());
+            List<String> sourceCode = getSourceCode(frame);
 
             if (sourceCode.isEmpty()) {
                 log.warn("无法获取类 {} 的源码", frame.getClassName());
@@ -68,46 +68,28 @@ public class LocalCodeLocator implements CodeLocator {
     /**
      * 尝试多种方式获取源码
      */
-    private List<String> getSourceCode(String className) {
+    private List<String> getSourceCode(StackFrame frame) {
+        String fullClassName = frame.getFullyQualifiedName();
         // 1. 尝试从文件系统获取（开发环境）
-        List<String> sourceCode = getSourceFromFileSystem(className);
+        List<String> sourceCode = getSourceFromFileSystem(frame.getFullyQualifiedName());
         if (!sourceCode.isEmpty()) {
-            log.debug("从文件系统获取源码成功: {}", className);
+            log.debug("从文件系统获取源码成功: {}", fullClassName);
             return sourceCode;
         }
 
-        // 2. 尝试从类路径获取（可能包含源码的JAR）
-        sourceCode = getSourceFromClasspath(className);
-        if (!sourceCode.isEmpty()) {
-            log.debug("从类路径获取源码成功: {}", className);
-            return sourceCode;
-        }
-
-        // 3. 尝试从Maven源码目录获取
-        sourceCode = getSourceFromMavenStructure(className);
-        if (!sourceCode.isEmpty()) {
-            log.debug("从Maven结构获取源码成功: {}", className);
-            return sourceCode;
-        }
-
-        log.warn("无法获取类 {} 的源码，已尝试所有方法", className);
+        log.warn("无法获取类 {} 的源码，已尝试所有方法", fullClassName);
         return List.of();
     }
 
     /**
      * 从文件系统获取源码
      */
-    private List<String> getSourceFromFileSystem(String className) {
+    private List<String> getSourceFromFileSystem(String fullyQualifiedName) {
         try {
-            String classPath = className.replace('.', '/') + ".java";
-
+            String classPath = fullyQualifiedName;
             // 尝试多个可能的路径
             List<String> possiblePaths = List.of(
-                Paths.get(sourceRoot, classPath).toString(),                    // 配置的源码根目录
-                Paths.get("src/main/java", classPath).toString(),               // 标准Maven结构
-                Paths.get("../src/main/java", classPath).toString(),            // 多模块项目
-                Paths.get("../../src/main/java", classPath).toString(),         // 更深层的多模块
-                Paths.get(System.getProperty("user.dir"), "src/main/java", classPath).toString() // 绝对路径
+                Paths.get(sourceRoot, classPath).toString()                    // 配置的源码根目录
             );
 
             for (String pathStr : possiblePaths) {
@@ -117,7 +99,7 @@ public class LocalCodeLocator implements CodeLocator {
                 }
             }
         } catch (IOException e) {
-            log.debug("从文件系统获取源码失败: {}", className, e);
+            log.debug("从文件系统获取源码失败: {}", fullyQualifiedName, e);
         }
         return List.of();
     }

@@ -64,6 +64,8 @@ public class RegexLogParser implements LogParser {
                     StackFrame frame = new StackFrame();
                     String fullMethodPath = frameMatcher.group(1).trim();
 
+                    frame.fullyQualifiedName = fullMethodPath;
+
                     int lastDotIndex = fullMethodPath.lastIndexOf('.');
                     frame.className = (lastDotIndex != -1)
                             ? fullMethodPath.substring(0, lastDotIndex)

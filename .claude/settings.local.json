@@ -4,7 +4,8 @@
       "Bash(mkdir -p log-analyzer/{src/main/java/com/loganalyzer/{parser,filter,analyzer,model,pipeline},src/test/java/com/loganalyzer,docs})",
       "Bash(mkdir:*)",
       "Bash(tree:*)",
-      "Bash(.git)"
+      "Bash(.git)",
+      "Bash(./mvnw:*)"
     ],
     "deny": [],
     "ask": []

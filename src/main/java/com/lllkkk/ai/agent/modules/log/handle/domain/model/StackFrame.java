@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StackFrame {
+    public String fullyQualifiedName;
     public String className;
     public String methodName;
     public int lineNumber;
