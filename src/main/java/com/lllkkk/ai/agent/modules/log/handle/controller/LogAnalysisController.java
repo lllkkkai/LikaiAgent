@@ -52,6 +52,10 @@ public class LogAnalysisController {
             // 3. AI分析
             AnalysisResult analysisResult = aiAnalyzer.analyze(filteredRecord);
 
+            if (analysisResult == null){
+                return null;
+            }
+
             // 4. 构建响应
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);

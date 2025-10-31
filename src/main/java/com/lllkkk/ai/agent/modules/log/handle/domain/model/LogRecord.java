@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LogRecord {
+    public String projectName;
     public String timestamp;
     public String level;
     public String exceptionClass;

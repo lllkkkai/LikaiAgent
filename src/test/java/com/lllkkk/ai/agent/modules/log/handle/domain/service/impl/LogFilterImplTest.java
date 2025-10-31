@@ -61,8 +61,8 @@ class LogFilterImplTest {
     void testFilter_WithOnlyNonBusinessFrames() {
         // Arrange
         List<StackFrame> nonBusinessFrames = new ArrayList<>();
-        nonBusinessFrames.add(new StackFrame("java.util.ArrayList", "forEach", 101, false));
-        nonBusinessFrames.add(new StackFrame("org.springframework.web.filter.OncePerRequestFilter", "doFilter", 112, false));
+        nonBusinessFrames.add(new StackFrame("", "java.util.ArrayList", "forEach", 101, false));
+        nonBusinessFrames.add(new StackFrame("","org.springframework.web.filter.OncePerRequestFilter", "doFilter", 112, false));
 
         LogRecord record = LogRecord.builder()
                 .stackFrames(nonBusinessFrames)

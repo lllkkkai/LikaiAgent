@@ -10,7 +10,6 @@ import java.util.List;
 @Service
 public class LogFilterImpl implements LogFilter {
 
-    // 可配置的业务包前缀
     private static final String[] BUSINESS_PACKAGES = {
             "com.dyyl", "com.wkb"
     };
@@ -22,7 +21,8 @@ public class LogFilterImpl implements LogFilter {
         }
 
         List<StackFrame> filteredFrames = record.getStackFrames().stream()
-                .filter(frame -> isBusinessFrame(frame))
+                .filter(this::isBusinessFrame)
+                .filter(frame -> frame.getLineNumber() > 0)
                 .toList();
 
         if (filteredFrames.isEmpty() && !record.getStackFrames().isEmpty()) {

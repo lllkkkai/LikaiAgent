@@ -1,5 +1,6 @@
 package com.lllkkk.ai.agent.modules.log.handle.domain.service;
 
+import com.lllkkk.ai.agent.modules.log.handle.domain.model.LogRecord;
 import com.lllkkk.ai.agent.modules.log.handle.domain.model.StackFrame;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface CodeLocator {
      * @return 代码片段
      */
     List<String> fetchSnippet(StackFrame frame, int contextLines);
+
+    List<String> fetchSnippet(String projectName, StackFrame frame);
 }

@@ -22,7 +22,7 @@ public class AIConfig {
     /**
      * 使用的模型名称
      */
-    private String model = "moonshot-v1-8k";
+    private String model = "kimi-k2-0905-preview";
 
     /**
      * 最大令牌数
@@ -32,5 +32,5 @@ public class AIConfig {
     /**
      * 温度参数（创造性）
      */
-    private double temperature = 0.3;
+    private double temperature = 0.6;
 }

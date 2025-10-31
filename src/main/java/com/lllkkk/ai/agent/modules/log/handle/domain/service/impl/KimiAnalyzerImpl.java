@@ -24,15 +24,10 @@ public class KimiAnalyzerImpl implements AIAnalyzer {
     @Override
     public AnalysisResult analyze(LogRecord record) {
         try {
-            // 构建AI分析提示词
             String prompt = buildAnalysisPrompt(record);
 
-            // 调用AI接口获取分析结果
             String aiResponse = kimiAIClient.analyzeLog(prompt);
-
-            // 解析AI响应并构建结果
             return parseAIResponse(aiResponse, record);
-
         } catch (Exception e) {
             log.error("AI分析日志失败", e);
             return buildFallbackResult(record, e.getMessage());
@@ -68,7 +63,7 @@ public class KimiAnalyzerImpl implements AIAnalyzer {
 
                 // 获取源码上下文
                 try {
-                    List<String> codeSnippet = codeLocator.fetchSnippet(frame, 5);
+                    List<String> codeSnippet = codeLocator.fetchSnippet(record.getProjectName(), frame);
                     if (!codeSnippet.isEmpty()) {
                         prompt.append("   相关代码片段:\n");
                         int startLine = Math.max(1, frame.getLineNumber() - 2);
@@ -107,16 +102,13 @@ public class KimiAnalyzerImpl implements AIAnalyzer {
      */
     private AnalysisResult parseAIResponse(String aiResponse, LogRecord record) {
         try {
-            // 提取JSON部分（AI可能返回一些额外文本）
             String jsonPart = extractJsonFromResponse(aiResponse);
 
-            // 简单的JSON解析（可以后续使用Jackson优化）
             String rootCause = extractJsonField(jsonPart, "rootCause");
             String summary = extractJsonField(jsonPart, "summary");
             String fixSuggestion = extractJsonField(jsonPart, "fixSuggestion");
             String relatedLocation = extractJsonField(jsonPart, "relatedLocation");
 
-            // 如果解析失败，提供默认分析
             if (rootCause == null || rootCause.isEmpty()) {
                 return buildDefaultResult(record);
             }
